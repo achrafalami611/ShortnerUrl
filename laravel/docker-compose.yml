@@ -1,0 +1,30 @@
+services:
+  laravel-backend:
+    image: laravel-backend:2.2-7.2
+    container_name: laravel-backend
+    build: .
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "9000:80"
+
+  laravel-mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: shortner_url
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+
+  laravel-phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: laravel-phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: laravel-mysql
+      MYSQL_ROOT_PASSWORD: root
+
+
+
+
