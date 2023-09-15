@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('shortnerurls', function (Blueprint $table) {
             $table->id();
             $table->text('original_url');
+            $table->text('url_description')->nullable();
             $table->string('short_url', 10)->unique();
             $table->integer('visits_count')->default(0);
             $table->timestamps();
