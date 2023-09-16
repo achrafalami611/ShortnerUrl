@@ -1,6 +1,6 @@
 <script setup>
 
-import { defineProps, ref } from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps({
   columns: {
@@ -16,11 +16,6 @@ const props = defineProps({
     required: false,
     default: () => [],
   },
-  maxHeight: {
-    type: Number,
-    required: false,
-    default: 250,
-  },
 })
 
 const handleActions = (row, action) => {
@@ -30,7 +25,7 @@ const handleActions = (row, action) => {
 
 
 <template>
-  <el-table :data="tableData" style="width: 100%" :max-height="maxHeight">
+  <el-table :data="tableData" style="width: 100%">
     <el-table-column
       v-for="column in columns"
       :key="column.prop"
