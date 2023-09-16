@@ -1,57 +1,120 @@
 <script setup>
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
+import { storeToRefs } from "pinia";
+import { useUrlStore } from "@/Url/stores/url";
 
-import { ref } from 'vue'
+const urlStore = useUrlStore();
+const { create } = urlStore;
+const { urlData } = storeToRefs(urlStore);
 
-const tableData = ref([
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-])
+const route = useRoute();
+const id = route.params.id;
 
-const deleteRow = (index) => {
-  tableData.value.splice(index, 1)
-}
+const props = defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
+  buttonText: {
+    type: String,
+    required: true,
+  },
+  isEdit: {
+    type: Boolean,
+    required: true,
+  },
+});
+
+const urlFormRef = ref();
+const formUrl = ref({
+  url: "",
+  description: "",
+});
+onMounted(async () => {
+  if (props.isEdit && id) {
+    await get(id);
+    formUrl.value = urlData.value;
+  }
+});
+const rules = ref({
+  url: [
+    { required: true, message: "Le libellé est obligatoire", trigger: "blur" },
+  ],
+});
+const submitForm = async () => {
+  if (!urlFormRef.value) return;
+  if (props.isEdit) {
+    await urlFormRef.value.validate(async (valid, fields) => {
+      if (valid) {
+        await edit(id, formUrl.value);
+        router.back();
+        BaseToast.open(
+          true,
+          "Type mission modifié avec succès",
+          "success",
+          "el-notification--success",
+          "Modification effectuée"
+        );
+      }
+    });
+  } else {
+    await urlFormRef.value.validate(async (valid, fields) => {
+      if (valid) {
+        await create(formUrl.value);
+        BaseToast.open(
+          true,
+          "Type mission ajouté avec succès",
+          "success",
+          "el-notification--success",
+          "Ajout effectué"
+        );
+        router.back();
+      }
+    });
+  }
+};
 </script>
-
 <template>
 
-<el-table :data="tableData" style="width: 100%" max-height="250">
-    <el-table-column fixed prop="date" label="Date" />
-    <el-table-column prop="name" label="Name" />
-    <el-table-column prop="state" label="State"/>
-    <el-table-column prop="city" label="City" />
-    <el-table-column prop="address" label="Address" width="500"/>
-    <el-table-column fixed="right" label="Operations">
-      <template #default="scope">
-        <el-button
-          link
-          type="primary"
-          size="small"
-          @click="deleteRow">
-          Remove
-        </el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+<el-card class="rounded-xl mb-5">
+      <div class="flex justify-between items-center py-2">
+        <h2 class="text-md font-bold text-gray-500"> Page d'accueil / Liste des urls / Création</h2>
+      </div>
+    </el-card>
+
+  <div class="w-2/4 m-auto">
+    <el-form
+      ref="urlFormRef"
+      :model="formUrl"
+      :rules="rules"
+      :isEdit="props.isEdit"
+      class="form__contract"
+    >
+      <el-card class="form__contract-card rounded-xl">
+        <h1 class="text-3xl text-center font-bold text-black">{{ props.title }}</h1>
+
+        <div class="mt-5">
+          <el-form-item label="Libellé" prop="url">
+            <el-input tyep="text" placeholder="Libellé" v-model="formUrl.url" />
+          </el-form-item>
+
+          <el-form-item label="Description" prop="description">
+            <el-input type="textarea" placeholder="Description" v-model="formUrl.description" :rows="3" />
+          </el-form-item>
+        </div>
+        <div class="flex justify-center mt-6">
+          <button class="btn-primary !rounded-full" round @click.prevent="submitForm()">
+            {{ props.buttonText }}
+          </button>
+        </div>
+      </el-card>
+    </el-form>
+  </div>
 </template>
+
+<style scoped>
+.el-form-item {
+  display: block;
+}
+</style>
