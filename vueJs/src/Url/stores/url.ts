@@ -1,5 +1,6 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { UrlService } from '../services/url';
+
 import { ref } from 'vue';
 
 const urlData = ref([]);
@@ -12,12 +13,12 @@ export const useUrlStore = defineStore('url', () => {
     });
   };
 
-  // const create = (url:StatusDTO) => {
-  //   return urlService.create(url).then((res) => {
-  //     return Promise.resolve(res);
-  //   })
-  // }
-  return {getAll,urlData}
+  const create = (url:any) => {
+    return urlService.create(url).then((res:any) => {
+      return Promise.resolve(res);
+    })
+  }
+  return {getAll,create,urlData}
 });
 
 if (import.meta.hot)
