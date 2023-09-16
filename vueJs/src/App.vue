@@ -11,11 +11,11 @@ import SideBar from "@/common/components/SideBar.vue";
   </header>
 
   <div class="flex items-baseline justify-between">
-    <div class="pt-8">
+    <div class="pt-5">
       <SideBar />
     </div>
 
-    <main class="m-auto p-8">
+    <main class="m-auto py-5 px-8">
     <RouterView />
   </main>
   </div>

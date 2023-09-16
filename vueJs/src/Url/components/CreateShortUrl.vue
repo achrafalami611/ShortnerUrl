@@ -3,6 +3,9 @@ import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useUrlStore } from "@/Url/stores/url";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const urlStore = useUrlStore();
 const { create } = urlStore;
@@ -31,12 +34,7 @@ const formUrl = ref({
   url: "",
   description: "",
 });
-onMounted(async () => {
-  if (props.isEdit && id) {
-    await get(id);
-    formUrl.value = urlData.value;
-  }
-});
+
 const rules = ref({
   url: [
     { required: true, message: "Le libellé est obligatoire", trigger: "blur" },
@@ -74,12 +72,25 @@ const submitForm = async () => {
     });
   }
 };
+
+const ToHome = () => {
+  router.push({ path: "/" });
+}
+
+onMounted(async () => {
+  if (props.isEdit && id) {
+    await get(id);
+    formUrl.value = urlData.value;
+  }
+});
+
+
 </script>
 <template>
 
 <el-card class="rounded-xl mb-5">
       <div class="flex justify-between items-center py-2">
-        <h2 class="text-md font-bold text-gray-500"> Page d'accueil / Liste des urls / Création</h2>
+        <h2 class="text-md font-bold text-gray-500"> Page d'accueil / <span class="text-black cursor-pointer" @click="ToHome">Liste des urls</span> / Création</h2>
       </div>
     </el-card>
 
