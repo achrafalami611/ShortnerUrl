@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@element-plus/icons-vue': ^2.1.0
   '@tsconfig/node18': ^18.2.2
   '@types/node': ^18.17.15
   '@vitejs/plugin-vue': ^4.3.4
@@ -11,6 +12,7 @@ specifiers:
   npm-run-all: ^4.1.5
   pinia: ^2.1.6
   postcss: ^8.4.29
+  sass: ^1.67.0
   tailwindcss: ^3.3.3
   typescript: ~5.1.6
   unplugin-auto-import: ^0.16.6
@@ -20,6 +22,7 @@ specifiers:
   vue-tsc: ^1.8.11
 
 dependencies:
+  '@element-plus/icons-vue': 2.1.0_vue@3.3.4
   axios: 1.5.0
   element-plus: 2.3.14_vue@3.3.4
   pinia: 2.1.6_typescript@5.1.6+vue@3.3.4
@@ -33,11 +36,12 @@ devDependencies:
   autoprefixer: 10.4.15_postcss@8.4.29
   npm-run-all: 4.1.5
   postcss: 8.4.29
+  sass: 1.67.0
   tailwindcss: 3.3.3
   typescript: 5.1.6
   unplugin-auto-import: 0.16.6
   unplugin-vue-components: 0.25.2_vue@3.3.4
-  vite: 4.4.9_@types+node@18.17.16
+  vite: 4.4.9_5bgm6oedxmjhnmacu7iq72es3q
   vue-tsc: 1.8.11_typescript@5.1.6
 
 packages:
@@ -403,7 +407,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.9_@types+node@18.17.16
+      vite: 4.4.9_5bgm6oedxmjhnmacu7iq72es3q
       vue: 3.3.4
     dev: true
 
@@ -1164,6 +1168,10 @@ packages:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
     dev: true
 
+  /immutable/4.3.4:
+    resolution: {integrity: sha512-fsXeu4J4i6WNWSikpI88v/PcVflZz+6kMhUfIwc5SY+poQRPnaf5V7qds6SUyUN3cVxEzuCab7QIoLOQ+DQ1wA==}
+    dev: true
+
   /inflight/1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
     dependencies:
@@ -1784,6 +1792,16 @@ packages:
       is-regex: 1.1.4
     dev: true
 
+  /sass/1.67.0:
+    resolution: {integrity: sha512-SVrO9ZeX/QQyEGtuZYCVxoeAL5vGlYjJ9p4i4HFuekWl8y/LtJ7tJc10Z+ck1c8xOuoBm2MYzcLfTAffD0pl/A==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      chokidar: 3.5.3
+      immutable: 4.3.4
+      source-map-js: 1.0.2
+    dev: true
+
   /scule/1.0.0:
     resolution: {integrity: sha512-4AsO/FrViE/iDNEPaAQlb77tf0csuq27EsVpy6ett584EcRTp6pTDLoGWVxCD77y5iU5FauOvhsI4o1APwPoSQ==}
     dev: true
@@ -2148,7 +2166,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite/4.4.9_@types+node@18.17.16:
+  /vite/4.4.9_5bgm6oedxmjhnmacu7iq72es3q:
     resolution: {integrity: sha512-2mbUn2LlUmNASWwSCNSJ/EG2HuSRTnVNaydp6vMCm5VIqJsjMfbIWtbH2kDuwUVW5mMUKKZvGPX/rqeqVvv1XA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -2180,6 +2198,7 @@ packages:
       esbuild: 0.18.20
       postcss: 8.4.29
       rollup: 3.29.1
+      sass: 1.67.0
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
