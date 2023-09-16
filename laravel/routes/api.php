@@ -7,7 +7,6 @@ use App\Http\Controllers\ShortnerUrlController;
 
 Route::group([
     'prefix' => 'shortenUrl',
-    'middleware' => 'auth:api'
 ], function () {
     Route::get('/', [ShortnerUrlController::class, 'index'])->name('shortenUrl.index');
     Route::post('/store', [ShortnerUrlController::class, 'store'])->name('shortenUrl.store');
