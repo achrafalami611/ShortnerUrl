@@ -1,10 +1,11 @@
-<script>
-
-</script>
-
+<script></script>
 
 <template>
-    <div>
-        <h1>Index</h1>
-    </div>
+  <div>
+    <h1 class="text-3xl font-bold underline">Hello world!</h1>
+    <el-alert title="success alert" type="success" />
+  <el-alert title="info alert" type="info" />
+  <el-alert title="warning alert" type="warning" />
+  <el-alert title="error alert" type="error" />
+  </div>
 </template>
