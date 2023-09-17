@@ -32,5 +32,22 @@ Use composer install (In Laravel Directory) and npm install to install the requi
   
 ### 3 - Database Setup: 
 Configure the .env file with the appropriate database settings, and run php artisan migrate to create the necessary database tables.
+
+
+# VueJs
+## Development
+#### Make sure to have pnpm installed, if not, run
+npm install -g pnpm
+
+#### Install dependencies
+pnpm install
+
+#### Run the app using
+pnpm dev
+
+
+
+
+
   
 
