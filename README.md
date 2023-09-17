@@ -32,8 +32,8 @@ Use composer install (In Laravel Directory) and npm install to install the requi
 
 ### 3 - Database Setup: 
 Configure the .env file with the appropriate database settings, and run php artisan migrate to create the necessary database tables.
-php artisan db:seed --class=UrlSeeder ( just for showing some data )
-php artisan serve
+#### php artisan db:seed --class=UrlSeeder ( just for showing some data )
+#### php artisan serve
 
 
 # VueJs
