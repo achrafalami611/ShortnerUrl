@@ -5,9 +5,10 @@ import { storeToRefs } from "pinia";
 import { useUrlStore } from "@/Url/stores/url";
 import { Plus } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
+import ConfirmationModal from "@/common/components/ConfirmationModal.vue";
 
 const urlStore = useUrlStore();
-const { getAll } = urlStore;
+const { getAll, destroy: deleteUrl } = urlStore;
 const { urlData } = storeToRefs(urlStore);
 const router = useRouter();
 
@@ -43,8 +44,18 @@ const actions = [
   },
   {
     label: "Supprimer",
-    handler(payload) {
-      console.log(payload);
+    async handler(payload) {
+      ConfirmationModal.confirm({
+        title: "",
+        confirmation_msg: "Vous êtes sûr de vouloir supprimer cet élément ?",
+        success_type: "success",
+        success_title: "Suppression effectuée",
+        success_msg: "L'élément a été supprimé avec succès",
+        callback: async () => {
+          // await deleteUrl(payload.id);
+          await getAll();
+        },
+      });
     },
   },
 ];
@@ -62,7 +73,9 @@ onMounted(async () => {
   <div class="card-table">
     <el-card class="rounded-xl mb-5">
       <div class="flex justify-between items-center py-2">
-        <h2 class="text-md font-bold text-gray-500"> Page d'accueil / Liste des urls</h2>
+        <h2 class="text-md font-bold text-gray-500">
+          Page d'accueil / Liste des urls
+        </h2>
       </div>
     </el-card>
 

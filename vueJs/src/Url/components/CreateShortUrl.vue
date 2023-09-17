@@ -1,17 +1,24 @@
 <script setup>
+
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useUrlStore } from "@/Url/stores/url";
 import { useRouter } from "vue-router";
+<<<<<<< HEAD
 
 const router = useRouter();
+=======
+import BaseToast from "@/common/components/BaseToast.vue";
+
+>>>>>>> origin/main
 
 const urlStore = useUrlStore();
 const { create } = urlStore;
 const { urlData } = storeToRefs(urlStore);
 
 const route = useRoute();
+const router = useRouter();
 const id = route.params.id;
 
 const props = defineProps({
@@ -31,25 +38,31 @@ const props = defineProps({
 
 const urlFormRef = ref();
 const formUrl = ref({
-  url: "",
+  original_url: "",
   description: "",
 });
 
 const rules = ref({
-  url: [
-    { required: true, message: "Le libellé est obligatoire", trigger: "blur" },
+  original_url: [
+    { required: true, message: "Veuillez saisir le libellé", trigger: "blur" },
+    {
+      type: "url",
+      message: "Veuillez saisir une url valide",
+      trigger: "blur",
+    },
   ],
 });
+
 const submitForm = async () => {
   if (!urlFormRef.value) return;
   if (props.isEdit) {
     await urlFormRef.value.validate(async (valid, fields) => {
       if (valid) {
         await edit(id, formUrl.value);
-        router.back();
+        router.push('/');
         BaseToast.open(
           true,
-          "Type mission modifié avec succès",
+          "L'élément a été modifié avec succès",
           "success",
           "el-notification--success",
           "Modification effectuée"
@@ -60,29 +73,33 @@ const submitForm = async () => {
     await urlFormRef.value.validate(async (valid, fields) => {
       if (valid) {
         await create(formUrl.value);
+        router.push('/');
         BaseToast.open(
           true,
-          "Type mission ajouté avec succès",
+          "L'élément a été créé avec succès",
           "success",
           "el-notification--success",
-          "Ajout effectué"
+          "Création effectuée"
         );
-        router.back();
       }
     });
   }
 };
 
+<<<<<<< HEAD
 const ToHome = () => {
   router.push({ path: "/" });
 }
 
+=======
+>>>>>>> origin/main
 onMounted(async () => {
   if (props.isEdit && id) {
     await get(id);
     formUrl.value = urlData.value;
   }
 });
+<<<<<<< HEAD
 
 
 </script>
@@ -93,6 +110,17 @@ onMounted(async () => {
         <h2 class="text-md font-bold text-gray-500"> Page d'accueil / <span class="text-black cursor-pointer" @click="ToHome">Liste des urls</span> / Création</h2>
       </div>
     </el-card>
+=======
+</script>
+<template>
+  <el-card class="rounded-xl mb-5">
+    <div class="flex justify-between items-center py-2">
+      <h2 class="text-md font-bold text-gray-500">
+        Page d'accueil / Liste des urls / Création
+      </h2>
+    </div>
+  </el-card>
+>>>>>>> origin/main
 
   <div class="w-2/4 m-auto">
     <el-form
@@ -103,19 +131,34 @@ onMounted(async () => {
       class="form__contract"
     >
       <el-card class="form__contract-card rounded-xl">
-        <h1 class="text-3xl text-center font-bold text-black">{{ props.title }}</h1>
+        <h1 class="text-3xl text-center font-bold text-black">
+          {{ props.title }}
+        </h1>
 
         <div class="mt-5">
-          <el-form-item label="Libellé" prop="url">
-            <el-input tyep="text" placeholder="Libellé" v-model="formUrl.url" />
+          <el-form-item label="Libellé" prop="original_url">
+            <el-input
+              type="text"
+              placeholder="Libellé"
+              v-model="formUrl.original_url"
+            />
           </el-form-item>
 
           <el-form-item label="Description" prop="description">
-            <el-input type="textarea" placeholder="Description" v-model="formUrl.description" :rows="3" />
+            <el-input
+              type="textarea"
+              placeholder="Description"
+              v-model="formUrl.description"
+              :rows="3"
+            />
           </el-form-item>
         </div>
         <div class="flex justify-center mt-6">
-          <button class="btn-primary !rounded-full" round @click.prevent="submitForm()">
+          <button
+            class="btn-primary !rounded-full"
+            round
+            @click.prevent="submitForm()"
+          >
             {{ props.buttonText }}
           </button>
         </div>
