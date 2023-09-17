@@ -12,4 +12,7 @@ export class UrlService {
   destroy(id:number){
     return axios.delete(apiBaseUrl+'/'+this.#baseUrl+'/delete/'+id).then(res => res.data);
   }
+  redirect(ShortUrl:string){
+    return axios.get(apiBaseUrl+'/'+this.#baseUrl+'/redirect/'+ShortUrl).then(res => res.data);
+  }
 }

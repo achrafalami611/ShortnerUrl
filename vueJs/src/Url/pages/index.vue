@@ -14,16 +14,8 @@ const router = useRouter();
 
 const metaData = [
   {
-    prop: "id",
-    label: "ID",
-  },
-  {
     prop: "original_url",
     label: "URL d'origine",
-  },
-  {
-    prop: "short_url",
-    label: "URL courte",
   },
   {
     prop: "visits_count",

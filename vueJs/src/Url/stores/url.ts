@@ -4,6 +4,7 @@ import { UrlService } from '../services/url';
 import { ref } from 'vue';
 
 const urlData = ref([]);
+const originalUrl = ref('');
 const urlService = new UrlService();
 export const useUrlStore = defineStore('url', () => {
 
@@ -23,7 +24,12 @@ export const useUrlStore = defineStore('url', () => {
     return urlService.destroy(id).then((res) => {
     })
   }
-  return {getAll, create, destroy, urlData}
+  const redirect = (ShortUrl:string) => {
+    return urlService.redirect(ShortUrl).then((res) => {
+      originalUrl.value = res;      
+    })
+  }
+  return {getAll, create, destroy, redirect, urlData,originalUrl}
 });
 
 if (import.meta.hot)
