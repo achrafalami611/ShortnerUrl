@@ -1,7 +1,9 @@
 <?php
 
+use App\Repositories\UrlService;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Console\Application;
 
 return [
 
@@ -186,3 +188,6 @@ return [
     ])->toArray(),
 
 ];
+    $this->app->bind(UrlService::class, function (Application $app) {
+        return new UrlService();
+    });
