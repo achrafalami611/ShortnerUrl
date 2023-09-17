@@ -1,6 +1,13 @@
 <script setup>
+import { ref } from "vue";
+import { useUrlStore } from "@/Url/stores/url";
+import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
-import { ref } from 'vue'
+const urlStore = useUrlStore();
+const { redirect,getAll } = urlStore;
+const { originalUrl } = storeToRefs(urlStore);
 
 const props = defineProps({
   columns: {
@@ -16,16 +23,30 @@ const props = defineProps({
     required: false,
     default: () => [],
   },
-})
+});
 
 const handleActions = (row, action) => {
   action.handler(row);
-}
-</script>
+};
+const handleShortUrlClick = async (shortUrl) => {
+  await redirect(shortUrl);
+  await getAll();
+  await window.open(originalUrl.value.data, '_blank');
+  
+};
 
+</script>
 
 <template>
   <el-table :data="tableData" style="width: 100%">
+    <el-table-column label="URL courte" width="200">
+      <template #default="scope">
+        <a @click="handleShortUrlClick(scope.row.short_url)" class="text-secondary underline hover:underline-offset-4 cursor-pointer">
+          {{ scope.row.short_url }}
+        </a>
+      </template>
+    </el-table-column>
+
     <el-table-column
       v-for="column in columns"
       :key="column.prop"
@@ -33,6 +54,7 @@ const handleActions = (row, action) => {
       :label="column.label"
       :width="column.width"
     />
+
     <el-table-column fixed="right" label="Operations">
       <template #default="scope">
         <el-button
@@ -41,7 +63,8 @@ const handleActions = (row, action) => {
           link
           type="primary"
           size="small"
-          @click="handleActions(scope.row, action)">
+          @click="handleActions(scope.row, action)"
+        >
           {{ action.label }}
         </el-button>
       </template>
