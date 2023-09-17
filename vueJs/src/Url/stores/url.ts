@@ -18,7 +18,12 @@ export const useUrlStore = defineStore('url', () => {
       return Promise.resolve(res);
     })
   }
-  return {getAll,create,urlData}
+
+  const destroy = (id:number) => {
+    return urlService.destroy(id).then((res) => {
+    })
+  }
+  return {getAll, create, destroy, urlData}
 });
 
 if (import.meta.hot)

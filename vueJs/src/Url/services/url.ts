@@ -9,4 +9,7 @@ export class UrlService {
   create(url: any) {
     return axios.post(apiBaseUrl+'/'+this.#baseUrl+'/store', url).then(res => res.data);
   }
+  destroy(id:number){
+    return axios.delete(apiBaseUrl+'/'+this.#baseUrl+'/delete/'+id).then(res => res.data);
+  }
 }
