@@ -29,9 +29,11 @@ Begin by cloning the project repository from GitHub.
   
 ### 2 - Install Dependencies: 
 Use composer install (In Laravel Directory) and npm install to install the required PHP and JavaScript packages, respectively.
-  
+
 ### 3 - Database Setup: 
 Configure the .env file with the appropriate database settings, and run php artisan migrate to create the necessary database tables.
+php artisan db:seed --class=UrlSeeder ( just for showing some data )
+php artisan serve
 
 
 # VueJs
@@ -44,10 +46,3 @@ pnpm install
 
 #### Run the app using
 pnpm dev
-
-
-
-
-
-  
-
