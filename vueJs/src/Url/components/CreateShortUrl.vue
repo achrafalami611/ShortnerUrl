@@ -5,6 +5,8 @@ import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useUrlStore } from "@/Url/stores/url";
 import { useRouter } from "vue-router";
+import BaseToast from "@/common/components/BaseToast.vue";
+
 
 const urlStore = useUrlStore();
 const { create } = urlStore;
@@ -53,6 +55,13 @@ const submitForm = async () => {
       if (valid) {
         await edit(id, formUrl.value);
         router.push('/');
+        BaseToast.open(
+          true,
+          "L'élément a été modifié avec succès",
+          "success",
+          "el-notification--success",
+          "Modification effectuée"
+        );
       }
     });
   } else {
@@ -60,6 +69,13 @@ const submitForm = async () => {
       if (valid) {
         await create(formUrl.value);
         router.push('/');
+        BaseToast.open(
+          true,
+          "L'élément a été créé avec succès",
+          "success",
+          "el-notification--success",
+          "Création effectuée"
+        );
       }
     });
   }
