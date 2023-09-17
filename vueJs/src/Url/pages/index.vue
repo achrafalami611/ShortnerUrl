@@ -44,7 +44,7 @@ const actions = [
         success_title: "Suppression effectuée",
         success_msg: "L'élément a été supprimé avec succès",
         callback: async () => {
-          // await deleteUrl(payload.id);
+          await deleteUrl(payload.id);
           await getAll();
         },
       });
