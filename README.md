@@ -40,7 +40,8 @@ Configure the .env file with the appropriate database settings, and run php arti
 npm install -g pnpm
 
 #### Install dependencies
-pnpm install
+pnpm i
+pnpm i vue-router
 
 #### Run the app using
 pnpm dev
