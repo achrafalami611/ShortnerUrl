@@ -2,115 +2,82 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ShortnerUrlRequest;
-use Illuminate\Http\Response;
-use App\Http\Controllers\Controller;
 use App\Models\ShortnerUrl;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
+use App\Repositories\UrlService;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ShortnerUrlRequest;
 
 class ShortnerUrlController extends Controller
 {
 
+    public function __construct(public UrlService $urlService){}
+
+
     public function index() : JsonResponse
-    {
-        $urls = ShortnerUrl::latest()->paginate(5);
+    {   
+        $urls = $this->urlService->getAllUrl();
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Short URLs retrieved successfully',
+            'message' => 'URL fetched successfully',
             'data' => $urls,
         ], Response::HTTP_OK);
     }
 
     public function store(ShortnerUrlRequest $request):JsonResponse
     {
-        $shortUrl = $this->generateUniqueShortUrl();
-
-        $shortnerUrl = ShortnerUrl::create([
-            'original_url' => $request->get('original_url'),
-            'url_description' => $request->get('url_description'),
-            'short_url' => $shortUrl,
-        ]);
+        $url = $this->urlService->create($request->all());
 
         return response()->json([
             'status' => 'success',
             'message' => 'Short URL created successfully',
-            'data' => $shortnerUrl,
-        ], Response::HTTP_CREATED); 
-    }
-
-    public function generateUniqueShortUrl($length = 10)
-    {
-        $shortUrl = Str::random($length);
-        $existingUrl = ShortnerUrl::where('short_url', $shortUrl)->first();
-        return $shortUrl;
+            'data' => $url,
+        ], Response::HTTP_CREATED);
     }
 
     public function show(ShortnerUrl $shortnerUrl):JsonResponse
     {
-        $shortnerUrl->increment('visits_count');
-
+        $shortUrl = $this->urlService->show($shortnerUrl);
         return response()->json([
             'status' => 'success',
             'message' => 'Short URL visited successfully',
-            'data' => $shortnerUrl->original_url,
+            'data' => $shortUrl,
         ], Response::HTTP_OK);
     }
 
-    public function update(ShortnerUrlRequest $request, int $shortnerUrl):JsonResponse
+    public function update(ShortnerUrlRequest $request, ShortnerUrl $shortnerUrl):JsonResponse
     {
+        $shortUrl = $this->urlService->update($request->all(), $shortnerUrl);
 
-        $shortnerUrl = ShortnerUrl::find($shortnerUrl);
-        if(!$shortnerUrl) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Short URL not found',
-            ], Response::HTTP_NOT_FOUND);
-        }
-
-        $shortnerUrl->update($request->all());
         return response()->json([
             'status' => 'success',
-            'message' => 'Short URL updated successfully',
-            'data' => $shortnerUrl,
+            'message' => 'URL updated successfully',
+            'data' => $shortUrl,
         ], Response::HTTP_OK);
     }
 
-    public function destroy(int $shortnerUrl):JsonResponse
+    public function destroy(ShortnerUrl $shortnerUrl):JsonResponse
     {
-        $shortnerUrl = ShortnerUrl::find($shortnerUrl);
-        if(!$shortnerUrl) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Short URL not found',
-            ], Response::HTTP_NOT_FOUND);
-        }
-
-        $shortnerUrl->delete();
+        $shortUrl = $this->urlService->delete($shortnerUrl);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Short URL deleted successfully',
+            'message' => 'URL deleted successfully',
+            'data' => $shortUrl,
         ], Response::HTTP_OK);
     }
 
-    public function redirect(string $shortnerUrl):JsonResponse
+    public function redirect(string $shortUrl):JsonResponse
     {
-        $shortnerUrl = ShortnerUrl::where('short_url',$shortnerUrl)->first();
-        if(!$shortnerUrl) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Short URL not found',
-            ], Response::HTTP_NOT_FOUND);
-        }
-
-        $shortnerUrl->increment('visits_count');
+        $url = $this->urlService->redirectToOriginalUrl($shortUrl);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Short URL visited successfully',
-            'data' => $shortnerUrl->original_url,
+            'message' => 'URL fetched successfully',
+            'data' => $url,
         ], Response::HTTP_OK);
     }
 
