@@ -95,6 +95,22 @@ class ShortnerUrlController extends Controller
         ], Response::HTTP_OK);
     }
 
+    public function redirect(int $shortnerUrl):JsonResponse
+    {
+        $shortnerUrl = ShortnerUrl::find($shortnerUrl);
+        if(!$shortnerUrl) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Short URL not found',
+            ], Response::HTTP_NOT_FOUND);
+        }
 
+        $shortnerUrl->increment('visits_count');
 
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Short URL visited successfully',
+            'data' => $shortnerUrl->original_url,
+        ], Response::HTTP_OK);
+    }
 }

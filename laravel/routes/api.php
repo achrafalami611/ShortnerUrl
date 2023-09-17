@@ -13,6 +13,8 @@ Route::group([
     Route::get('/show/{shortnerUrl}', [ShortnerUrlController::class, 'show'])->name('shortenUrl.show');
     Route::put('/update/{shortnerUrl}', [ShortnerUrlController::class, 'update'])->name('shortenUrl.update');
     Route::delete('/delete/{shortnerUrl}', [ShortnerUrlController::class, 'destroy'])->name('shortenUrl.destroy');
+    Route::get('/redirect/{shortnerUrl}', [ShortnerUrlController::class, 'redirect'])->name('shortenUrl.redirect');
 });
+
 
 
