@@ -9,6 +9,9 @@ body{
 .text-primary{
     color: #018fd7;
 }
+.text-secondary{
+    color :#ea1241;
+}
 .bg-primary{
     background-color: #018fd7;
 }
